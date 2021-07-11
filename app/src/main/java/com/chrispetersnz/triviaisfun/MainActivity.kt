@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, QuizActivity::class.java)
             intent.putExtra(QuizActivity.CATEGORY_ID, it)
             startActivity(intent)
+            finish()
         }
     }
 }

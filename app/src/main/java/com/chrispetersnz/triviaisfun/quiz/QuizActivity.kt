@@ -1,11 +1,14 @@
 package com.chrispetersnz.triviaisfun.quiz
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.chrispetersnz.triviaisfun.MainActivity
 import com.chrispetersnz.triviaisfun.R
 import com.chrispetersnz.triviaisfun.databinding.ActivityQuizBinding
+import com.chrispetersnz.triviaisfun.quiz.result.ResultActivity
 import org.koin.android.ext.android.inject
 
 class QuizActivity : AppCompatActivity() {
@@ -21,9 +24,19 @@ class QuizActivity : AppCompatActivity() {
         val binding: ActivityQuizBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_quiz)
         binding.viewModel = viewModel
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         viewModel.screenCreated(intent)
+
+        viewModel.title.observe(this) {
+            supportActionBar?.title = it
+        }
+        viewModel.result.observe(this) {
+            val intent = Intent(this, ResultActivity::class.java)
+            intent.putExtra(ResultActivity.RESULT_ID, it)
+            startActivity(intent)
+            finish()
+        }
     }
 
     override fun onBackPressed() {

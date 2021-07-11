@@ -4,4 +4,7 @@
     <string name="title">Trivia is fun!</string>
     <string name="header">Please select a category!</string>
     <string name="error_message">You can only select one category</string>
+    <string name="game_over">Game Over!</string>
+    <string name="playAgainButton">Play again</string>
+    <string name="quitButton">Not right now</string>
 </resources>
