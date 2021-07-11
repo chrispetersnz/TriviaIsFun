@@ -1,5 +1,7 @@
 package com.chrispetersnz.triviaisfun.network
 
+import timber.log.Timber
+
 class CategoryRepository(private val triviaDBService: TriviaDBService) {
 
     private var categories: List<TriviaDBService.TriviaCategory> = listOf()
@@ -8,6 +10,10 @@ class CategoryRepository(private val triviaDBService: TriviaDBService) {
 
         if (categories.isEmpty()) {
             categories = triviaDBService.getCategories().categories
+        }
+
+        for (category in categories) {
+            Timber.d("Found category  ${category.name} with id ${category.id}")
         }
 
         return categories
