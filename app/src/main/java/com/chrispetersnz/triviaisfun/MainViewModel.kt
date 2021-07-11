@@ -5,12 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chrispetersnz.triviaisfun.network.TriviaDBProvider
+import com.chrispetersnz.triviaisfun.network.ITriviaDBProvider
 import com.chrispetersnz.triviaisfun.network.TriviaDBService
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MainViewModel(val triviaDBProvider: TriviaDBProvider) : ViewModel() {
+class MainViewModel(val triviaDBProvider: ITriviaDBProvider) : ViewModel() {
 
     val showError = ObservableBoolean(false)
     val showLoadingSpinner = ObservableBoolean(true)
