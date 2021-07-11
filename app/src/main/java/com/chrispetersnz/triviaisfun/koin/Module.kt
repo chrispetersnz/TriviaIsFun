@@ -1,8 +1,11 @@
 package com.chrispetersnz.triviaisfun.koin
 
-import com.chrispetersnz.triviaisfun.network.CategoryRepository
 import com.chrispetersnz.triviaisfun.MainViewModel
+import com.chrispetersnz.triviaisfun.network.TriviaDBProvider
 import com.chrispetersnz.triviaisfun.network.TriviaDBService
+import com.chrispetersnz.triviaisfun.quiz.QuizViewModel
+import com.chrispetersnz.triviaisfun.util.HtmlProvider
+import com.chrispetersnz.triviaisfun.util.IHtmlProvider
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -11,16 +14,20 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val appModule = module {
-    single { CategoryRepository(get()) }
+    single { TriviaDBProvider(get()) }
 
     single { provideTriviaService(get()) }
+
+    factory { provideHtmlProvider() }
 
     factory { provideOkHttpClient() }
 
     viewModel { MainViewModel(get()) }
 
-
+    viewModel { QuizViewModel(get(), get()) }
 }
+
+fun provideHtmlProvider(): IHtmlProvider = HtmlProvider()
 
 fun provideOkHttpClient(): OkHttpClient {
     val okHttpClientBuilder = OkHttpClient.Builder()

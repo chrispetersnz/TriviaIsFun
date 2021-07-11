@@ -1,13 +1,12 @@
 package com.chrispetersnz.triviaisfun
 
+import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.chrispetersnz.triviaisfun.databinding.ActivityMainBinding
+import com.chrispetersnz.triviaisfun.quiz.QuizActivity
 import com.chrispetersnz.triviaisfun.ui.CategoryRecyclerViewAdapter
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -32,6 +31,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.categories.observe(this) { categories ->
             Timber.d("Categories updated")
             categoryAdapter.updateCategories(categories)
+        }
+
+        viewModel.startQuiz.observe(this) {
+            val intent = Intent(this, QuizActivity::class.java)
+            intent.putExtra(QuizActivity.CATEGORY_ID, it)
+            startActivity(intent)
         }
     }
 }

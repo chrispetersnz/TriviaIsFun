@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.chrispetersnz.triviaisfun.quiz.QuizViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="32dp"
+        tools:context=".quiz.QuizActivity">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="32dp"
+            android:text="@{viewModel.questionText}"
+            android:textSize="24sp"
+            android:visibility="@{!viewModel.showLoadingSpinner}" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> viewModel.answerSelected(v)}"
+            android:text="@{viewModel.firstAnswer}"
+            android:visibility="@{!viewModel.showLoadingSpinner}" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> viewModel.answerSelected(v)}"
+            android:text="@{viewModel.secondAnswer}"
+            android:visibility="@{!viewModel.showLoadingSpinner}" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> viewModel.answerSelected(v)}"
+            android:text="@{viewModel.thirdAnswer}"
+            android:visibility="@{!viewModel.isTrueFalse &amp;&amp; !viewModel.showLoadingSpinner}" />
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> viewModel.answerSelected(v)}"
+            android:text="@{viewModel.fourthAnswer}"
+            android:visibility="@{!viewModel.isTrueFalse &amp;&amp; !viewModel.showLoadingSpinner}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:text="@{viewModel.scoreText}"
+            android:layout_weight="1"/>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.showLoadingSpinner}" />
+
+    </LinearLayout>
+
+</layout>

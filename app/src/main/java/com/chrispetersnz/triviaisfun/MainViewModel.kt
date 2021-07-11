@@ -5,25 +5,27 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chrispetersnz.triviaisfun.network.CategoryRepository
+import com.chrispetersnz.triviaisfun.network.TriviaDBProvider
 import com.chrispetersnz.triviaisfun.network.TriviaDBService
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MainViewModel(val categoryRepository: CategoryRepository) : ViewModel() {
+class MainViewModel(val triviaDBProvider: TriviaDBProvider) : ViewModel() {
 
     val showError = ObservableBoolean(false)
     val showLoadingSpinner = ObservableBoolean(true)
 
+    private val _startQuiz = MutableLiveData<TriviaDBService.TriviaCategory>()
     private val _categories = MutableLiveData<List<TriviaDBService.TriviaCategory>>()
 
+    val startQuiz: LiveData<TriviaDBService.TriviaCategory> = _startQuiz
     val categories: LiveData<List<TriviaDBService.TriviaCategory>> = _categories
-
+    var loadedCategories: List<TriviaDBService.TriviaCategory> = listOf()
     private var selectedPositions = mutableSetOf<Int>()
 
     fun screenCreated() {
         viewModelScope.launch {
-            val loadedCategories = categoryRepository.getCategories()
+            loadedCategories = triviaDBProvider.getCategories()
             _categories.value = loadedCategories
             showLoadingSpinner.set(false)
         }
@@ -47,6 +49,10 @@ class MainViewModel(val categoryRepository: CategoryRepository) : ViewModel() {
     }
 
     fun startButtonPressed() {
+        if (selectedPositions.size != 1) {
+            return
+        }
 
+        _startQuiz.value = loadedCategories[selectedPositions.first()]
     }
 }

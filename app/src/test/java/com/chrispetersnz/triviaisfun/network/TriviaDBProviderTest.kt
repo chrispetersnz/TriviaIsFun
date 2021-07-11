@@ -6,13 +6,13 @@ import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Test
 import org.mockito.Mockito.*
 
-class CategoryRepositoryTest {
+class TriviaDBProviderTest {
 
     @Test
     fun `categories are loaded from service on first call`() = runBlockingTest {
         //given
         val mockService = mock(TriviaDBService::class.java)
-        val categoryRepository = CategoryRepository(mockService)
+        val categoryRepository = TriviaDBProvider(mockService)
         val response = TriviaDBService.TriviaCategories(listOf())
         `when`(mockService.getCategories()).thenReturn(response)
 
@@ -27,7 +27,7 @@ class CategoryRepositoryTest {
     fun `categories are returned from cache if already loaded`() = runBlockingTest {
         //given
         val mockService = mock(TriviaDBService::class.java)
-        val categoryRepository = CategoryRepository(mockService)
+        val categoryRepository = TriviaDBProvider(mockService)
         val categoryList = listOf(TriviaDBService.TriviaCategory(id = 123, name = "Sports"))
         val response = TriviaDBService.TriviaCategories(categoryList)
         `when`(mockService.getCategories()).thenReturn(response)

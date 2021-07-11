@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:text="@string/startbutton_label"
             android:visibility="@{!viewModel.showLoadingSpinner}"
+            android:onClick="@{() -> viewModel.startButtonPressed()}"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator

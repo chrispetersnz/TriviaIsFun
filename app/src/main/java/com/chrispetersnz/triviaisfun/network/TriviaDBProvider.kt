@@ -2,7 +2,7 @@ package com.chrispetersnz.triviaisfun.network
 
 import timber.log.Timber
 
-class CategoryRepository(private val triviaDBService: TriviaDBService) {
+class TriviaDBProvider(private val triviaDBService: TriviaDBService) {
 
     private var categories: List<TriviaDBService.TriviaCategory> = listOf()
 
@@ -17,5 +17,17 @@ class CategoryRepository(private val triviaDBService: TriviaDBService) {
         }
 
         return categories
+    }
+
+    suspend fun loadQuestionsForCategory(category: TriviaDBService.TriviaCategory): List<TriviaDBService.TriviaQuestion> {
+        val response = triviaDBService.getQuestions(
+            amount = 10,
+            category = category.id
+        )
+        if (response.response != 0) {
+            //TODO: Implement error handling
+        }
+
+        return response.questions
     }
 }
