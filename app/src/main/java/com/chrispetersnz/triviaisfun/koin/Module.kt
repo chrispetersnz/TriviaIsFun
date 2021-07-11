@@ -1,6 +1,7 @@
 package com.chrispetersnz.triviaisfun.koin
 
 import com.chrispetersnz.triviaisfun.MainViewModel
+import com.chrispetersnz.triviaisfun.network.ITriviaDBProvider
 import com.chrispetersnz.triviaisfun.network.TriviaDBProvider
 import com.chrispetersnz.triviaisfun.network.TriviaDBService
 import com.chrispetersnz.triviaisfun.quiz.QuizViewModel
@@ -14,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 val appModule = module {
-    single { TriviaDBProvider(get()) }
+    single { provideTriviaDBProvider(get()) }
 
     single { provideTriviaService(get()) }
 
@@ -26,6 +27,9 @@ val appModule = module {
 
     viewModel { QuizViewModel(get(), get()) }
 }
+
+fun provideTriviaDBProvider(triviaDBService: TriviaDBService): ITriviaDBProvider =
+    TriviaDBProvider(triviaDBService)
 
 fun provideHtmlProvider(): IHtmlProvider = HtmlProvider()
 

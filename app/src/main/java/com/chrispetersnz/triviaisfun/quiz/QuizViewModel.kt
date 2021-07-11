@@ -10,7 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chrispetersnz.triviaisfun.R
-import com.chrispetersnz.triviaisfun.network.TriviaDBProvider
+import com.chrispetersnz.triviaisfun.network.ITriviaDBProvider
 import com.chrispetersnz.triviaisfun.network.TriviaDBService
 import com.chrispetersnz.triviaisfun.util.IHtmlProvider
 import com.chrispetersnz.triviaisfun.util.SingleLiveEvent
@@ -19,12 +19,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class QuizViewModel(
-    private val provider: TriviaDBProvider,
+    private val provider: ITriviaDBProvider,
     private val htmlProvider: IHtmlProvider
 ) : ViewModel() {
 
+    companion object {
+        private val QUESTION_PAUSE = 3000L
+    }
+
     val showLoadingSpinner = ObservableBoolean(true)
-    val isTrueFalse = ObservableBoolean(false)
     val questionText = ObservableField<String>()
     val scoreText = ObservableField<String>(" ")
     val firstAnswer = ObservableField<String>()
@@ -84,7 +87,7 @@ class QuizViewModel(
         animateButtonVisibilty(correctAnswer)
 
         viewModelScope.launch {
-            delay(3000)
+            delay(QUESTION_PAUSE)
             if (position < 9) {
                 showNextQuestion()
             } else {
@@ -121,14 +124,12 @@ class QuizViewModel(
         questionText.set(htmlProvider.decodeHtml(question.question))
 
         if (question.type == "boolean") {
-            isTrueFalse.set(true)
             firstAnswer.set("True")
             secondAnswer.set("False")
             thirdVisible.set(View.INVISIBLE)
             fourthVisible.set(View.INVISIBLE)
             return
         }
-        isTrueFalse.set(false)
         val allAnswers = mutableListOf<String>()
         allAnswers.add(question.correctAnswer)
         allAnswers.addAll(question.incorrectAnswers)

@@ -2,11 +2,11 @@ package com.chrispetersnz.triviaisfun.network
 
 import timber.log.Timber
 
-class TriviaDBProvider(private val triviaDBService: TriviaDBService) {
+class TriviaDBProvider(private val triviaDBService: TriviaDBService) : ITriviaDBProvider {
 
     private var categories: List<TriviaDBService.TriviaCategory> = listOf()
 
-    suspend fun getCategories(): List<TriviaDBService.TriviaCategory> {
+    override suspend fun getCategories(): List<TriviaDBService.TriviaCategory> {
 
         if (categories.isEmpty()) {
             categories = triviaDBService.getCategories().categories
@@ -19,7 +19,7 @@ class TriviaDBProvider(private val triviaDBService: TriviaDBService) {
         return categories
     }
 
-    suspend fun loadQuestionsForCategory(category: TriviaDBService.TriviaCategory): List<TriviaDBService.TriviaQuestion> {
+    override suspend fun loadQuestionsForCategory(category: TriviaDBService.TriviaCategory): List<TriviaDBService.TriviaQuestion> {
         val response = triviaDBService.getQuestions(
             amount = 10,
             category = category.id
