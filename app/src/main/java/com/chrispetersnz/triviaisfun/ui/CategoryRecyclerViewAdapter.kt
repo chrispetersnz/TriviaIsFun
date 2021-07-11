@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chrispetersnz.triviaisfun.R
 import com.chrispetersnz.triviaisfun.network.TriviaDBService
 
-class CategoryRecyclerViewAdapter(val checkBoxHandler: (Int, Boolean) -> Unit) :
+class CategoryRecyclerViewAdapter(val checkBoxHandler: (Int, Boolean) -> Boolean) :
     RecyclerView.Adapter<ViewHolder>() {
 
     private val categories = mutableListOf<TriviaDBService.TriviaCategory>()
@@ -24,7 +24,7 @@ class CategoryRecyclerViewAdapter(val checkBoxHandler: (Int, Boolean) -> Unit) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.nameView.text = (categories[position].name)
         holder.checkBox.setOnClickListener {
-            checkBoxHandler.invoke(position, holder.checkBox.isChecked)
+            !checkBoxHandler.invoke(position, holder.checkBox.isChecked)
         }
     }
 

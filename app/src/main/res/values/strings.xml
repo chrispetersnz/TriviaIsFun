@@ -3,4 +3,5 @@
     <string name="startbutton_label">Start</string>
     <string name="title">Trivia is fun!</string>
     <string name="header">Please select a category!</string>
+    <string name="error_message">You can only select one category</string>
 </resources>
